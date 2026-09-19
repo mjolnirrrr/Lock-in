@@ -1,0 +1,62 @@
+import { Component } from '@angular/core';
+import {
+  IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline, home, bookOutline, book, calendarOutline, calendar,
+  statsChartOutline, statsChart, personOutline, person
+} from 'ionicons/icons';
+
+@Component({
+  selector: 'app-tabs',
+  standalone: true,
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+  template: `
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="study" href="/tabs/study">
+          <ion-icon name="book-outline"></ion-icon>
+          <ion-label>Study</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="calendar" href="/tabs/calendar">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <ion-label>Calendar</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="stats" href="/tabs/stats">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+          <ion-label>Stats</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="profile" href="/tabs/profile">
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-label>Profile</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  `,
+  styles: [`
+    ion-tab-bar {
+      --background: #ffffff;
+      border-top: 1px solid var(--ion-color-light-shade);
+      height: 62px;
+    }
+    ion-tab-button {
+      --color: var(--ion-color-medium);
+      --color-selected: var(--ion-color-dark);
+      font-size: 10px;
+    }
+    ion-icon { font-size: 22px; }
+  `]
+})
+export class TabsPage {
+  constructor() {
+    addIcons({
+      homeOutline, home, bookOutline, book, calendarOutline, calendar,
+      statsChartOutline, statsChart, personOutline, person
+    });
+  }
+}
