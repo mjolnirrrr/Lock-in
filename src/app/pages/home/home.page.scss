@@ -1,0 +1,250 @@
+:host {
+  display: block;
+}
+
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 4px 16px;
+}
+
+.greeting-eyebrow {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 2px 0 0;
+  color: var(--ion-text-color, #000);
+}
+
+.bell-btn {
+  position: relative;
+  margin: 0;
+  --padding-start: 6px;
+  --padding-end: 6px;
+}
+
+.bell-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 9px;
+  padding: 2px 5px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0 10px;
+  padding: 0 4px;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ion-text-color, #000);
+  }
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ion-color-primary, #3880ff);
+  cursor: pointer;
+}
+
+.soft-card {
+  background: var(--ion-card-background, var(--ion-background-color, #fff));
+  border-radius: var(--app-radius-md, 16px);
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.plan-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  outline: none;
+
+  ion-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+}
+
+.plan-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ion-text-color, #000);
+  transition: color 0.2s ease;
+
+  &.done {
+    text-decoration: line-through;
+    color: var(--ion-color-medium);
+  }
+}
+
+.plan-time {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  gap: 6px;
+  color: var(--ion-color-medium);
+  font-size: 13px;
+
+  ion-icon {
+    font-size: 28px;
+  }
+}
+
+.upcoming-card {
+  padding: 14px 16px;
+}
+
+.upcoming-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upcoming-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--ion-color-light, #f4f5f8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 18px;
+    color: var(--ion-color-dark, #222428);
+  }
+}
+
+.subjects-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 4px 12px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.subject-chip {
+  flex: 0 0 auto;
+  width: 96px;
+  background: var(--ion-card-background, #fff);
+  border-radius: var(--app-radius-md, 16px);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  outline: none;
+
+  p {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ion-text-color, #000);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  span {
+    font-size: 10.5px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.subject-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 19px;
+  }
+}
+
+.quick-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.qa-btn {
+  flex: 1;
+  background: var(--ion-card-background, #fff);
+  border: none;
+  border-radius: var(--app-radius-md, 16px);
+  padding: 16px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ion-text-color, #000);
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 22px;
+    color: var(--ion-color-secondary, #3dc2ff);
+  }
+}
+
+@media (min-width: 768px) {
+  .greeting-eyebrow {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}

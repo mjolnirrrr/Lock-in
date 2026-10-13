@@ -1,0 +1,84 @@
+<ion-header class="ion-no-border">
+  <div class="study-container">
+    <ion-toolbar>
+      <ion-title>My Study</ion-title>
+      <ion-button slot="end" fill="clear" aria-label="Search">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="study-container">
+    <!-- Subjects Section -->
+    <section class="section-header first-section">
+      <h3>Subjects</h3>
+    </section>
+
+    <div class="subject-list">
+      @for (s of data.subjects(); track s.id) {
+        <div
+          class="soft-card subject-row"
+          (click)="goMaterials(s.id)"
+          (keydown.enter)="goMaterials(s.id)"
+          (keydown.space)="goMaterials(s.id)"
+          role="button"
+          tabindex="0"
+        >
+          <div class="subject-icon" [style.background]="s.color + '1A'">
+            <ion-icon [name]="s.icon" [style.color]="s.color"></ion-icon>
+          </div>
+          <div class="subject-info">
+            <p class="subject-name">{{ s.name }}</p>
+            <span class="subject-meta">{{ s.topicCount }} topics</span>
+            <ion-progress-bar [value]="s.progress / 100" [style.--progress-background]="s.color"></ion-progress-bar>
+          </div>
+          <span class="progress-pct">{{ s.progress }}%</span>
+        </div>
+      }
+    </div>
+
+    <!-- Recent Materials Section -->
+    <section class="section-header">
+      <h3>Recent Materials</h3>
+      <button type="button" class="link-btn" (click)="goMaterials()">View all</button>
+    </section>
+
+    <div class="soft-card materials-card">
+      @for (m of recentMaterials(); track m.id) {
+        <div class="material-row">
+          <ion-icon
+            [name]="m.kind === 'image' ? 'image-outline' : 'document-text-outline'"
+            [style.color]="m.kind === 'image' ? 'var(--ion-color-tertiary, #6C63FF)' : 'var(--ion-color-danger, #EB5757)'"
+          ></ion-icon>
+          <div class="material-text">
+            <p>{{ m.name }}</p>
+            <span>{{ m.kind.toUpperCase() }} &middot; {{ m.size }}</span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>No materials yet.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Quick Actions Section -->
+    <section class="section-header">
+      <h3>Quick Actions</h3>
+    </section>
+    <div class="quick-actions">
+      <button type="button" class="qa-btn" (click)="openAddQuiz()">
+        <ion-icon name="add-outline"></ion-icon>
+        <span>Add Quiz / Activity</span>
+      </button>
+      <button type="button" class="qa-btn" (click)="openAddMaterial()">
+        <ion-icon name="folder-outline"></ion-icon>
+        <span>Add Material</span>
+      </button>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+</ion-content>

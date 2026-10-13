@@ -1,0 +1,104 @@
+<ion-content class="ion-padding">
+  <div class="home-container">
+    <!-- Topbar Header -->
+    <header class="topbar">
+      <div>
+        <p class="greeting-eyebrow">{{ greeting() }}, {{ firstName() }}!</p>
+        <h1>Let's make today productive.</h1>
+      </div>
+      <ion-button fill="clear" class="bell-btn" aria-label="Notifications">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <ion-badge color="danger" class="bell-badge">2</ion-badge>
+      </ion-button>
+    </header>
+
+    <!-- Today's Plan Section -->
+    <section class="section-header">
+      <h3>Today's Plan</h3>
+      <button type="button" class="link-btn" (click)="goCalendar()">View all</button>
+    </section>
+
+    <div class="soft-card plan-card">
+      @for (task of data.todaysTasks(); track task.id) {
+        <div
+          class="plan-row"
+          (click)="toggle(task.id)"
+          (keydown.enter)="toggle(task.id)"
+          (keydown.space)="toggle(task.id)"
+          role="checkbox"
+          [attr.aria-checked]="task.done"
+          tabindex="0"
+        >
+          <ion-icon
+            [name]="task.done ? 'checkmark-circle' : 'ellipse-outline'"
+            [color]="task.done ? 'success' : 'medium'"
+          ></ion-icon>
+          <div class="plan-text">
+            <p class="plan-title" [class.done]="task.done">{{ task.title }}</p>
+            <span class="plan-time">{{ task.startTime }}{{ task.endTime ? ' - ' + task.endTime : '' }}</span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="checkmark-circle" color="medium"></ion-icon>
+          <p>Nothing planned for today yet.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Upcoming Section -->
+    <section class="section-header">
+      <h3>Upcoming</h3>
+    </section>
+    <div class="soft-card upcoming-card">
+      <div class="upcoming-row">
+        <div class="upcoming-icon">
+          <ion-icon name="folder-outline"></ion-icon>
+        </div>
+        <div class="plan-text">
+          <p class="plan-title">Study Session</p>
+          <span class="plan-time">Physics &middot; Today 2:00 PM</span>
+        </div>
+        <ion-icon name="chevron-forward" color="medium"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Subjects Section -->
+    <section class="section-header">
+      <h3>Subjects</h3>
+      <button type="button" class="link-btn" (click)="goStudy()">View all</button>
+    </section>
+    <div class="subjects-scroll">
+      @for (s of data.subjects(); track s.id) {
+        <div
+          class="subject-chip"
+          (click)="goStudy()"
+          (keydown.enter)="goStudy()"
+          role="button"
+          tabindex="0"
+        >
+          <div class="subject-icon" [style.background]="s.color + '1A'">
+            <ion-icon [name]="s.icon" [style.color]="s.color"></ion-icon>
+          </div>
+          <p>{{ s.name }}</p>
+          <span>{{ s.topicCount }} topics</span>
+        </div>
+      }
+    </div>
+
+    <!-- Quick Actions Section -->
+    <section class="section-header">
+      <h3>Quick Actions</h3>
+    </section>
+    <div class="quick-actions">
+      <button type="button" class="qa-btn" (click)="openAddQuiz()">
+        <ion-icon name="add-outline"></ion-icon>
+        <span>Add Quiz / Activity</span>
+      </button>
+      <button type="button" class="qa-btn" (click)="openAddMaterial()">
+        <ion-icon name="folder-outline"></ion-icon>
+        <span>Add Material</span>
+      </button>
+    </div>
+  </div>
+</ion-content>

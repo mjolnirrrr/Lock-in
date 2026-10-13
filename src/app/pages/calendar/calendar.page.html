@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="cal-header">
+      <ion-button fill="clear" (click)="shiftWeek(-1)">
+        <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+      </ion-button>
+      <h2>{{ monthLabel() }}</h2>
+      <ion-button fill="clear" (click)="shiftWeek(1)">
+        <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+  <div class="week-strip">
+    @for (d of weekDays(); track d.date) {
+      <div class="day-cell" [class.active]="d.date === selectedDate()" (click)="selectedDate.set(d.date)">
+        <span class="dow">{{ d.dow }}</span>
+        <span class="dom">{{ d.dom }}</span>
+      </div>
+    }
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="calendar-container">
+    <h3 class="date-heading">{{ selectedDateLabel() }}</h3>
+
+    <div class="timeline">
+      @for (task of dayTasks(); track task.id) {
+        <div class="timeline-row">
+          <span class="time-label">{{ task.startTime }}</span>
+          <div
+            class="soft-card task-block"
+            [style.borderLeftColor]="subjectColor(task.subjectId)"
+          >
+            <p class="task-title">{{ task.title }}</p>
+            <span class="task-sub">
+              {{ subjectName(task.subjectId) }}
+              {{ task.endTime ? ' · ' + task.startTime + ' - ' + task.endTime : '' }}
+            </span>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <ion-icon name="calendar-clear-outline"></ion-icon>
+          <p>No sessions scheduled this day.</p>
+        </div>
+      }
+    </div>
+  </div>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="dark" (click)="openAddQuiz()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

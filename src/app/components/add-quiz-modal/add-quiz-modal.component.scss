@@ -1,0 +1,96 @@
+.field-label {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  margin: 4px 0 8px;
+}
+
+.type-segment {
+  margin-bottom: 16px;
+  --background: var(--ion-color-light);
+  border-radius: var(--app-radius-md);
+}
+
+.row-2 {
+  display: flex;
+  gap: 12px;
+
+  ion-item {
+    flex: 1;
+  }
+}
+
+.upload-box {
+  border: 1.5px dashed var(--ion-color-light-shade);
+  border-radius: var(--app-radius-md);
+  text-align: center;
+  padding: 22px 12px;
+  margin-bottom: 20px;
+
+  ion-icon {
+    font-size: 28px;
+    color: var(--ion-color-medium);
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  span {
+    font-size: 11px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.create-btn {
+  margin-bottom: 20px;
+}
+
+/* --- Subject picker: iOS popover polish --- */
+::ng-deep .subject-popover-ios {
+  --width: 260px;
+  --border-radius: 14px;
+  --box-shadow: 0 10px 30px rgba(28, 28, 30, 0.14);
+}
+
+::ng-deep .subject-popover-ios ion-list {
+  padding: 6px 0;
+}
+
+::ng-deep .subject-popover-ios ion-item {
+  --min-height: 44px;
+  font-size: 15px;
+  --background-hover: var(--ion-color-light);
+}
+
+::ng-deep .subject-popover-ios ion-radio {
+  --color-checked: var(--ion-color-secondary);
+}
+
+/* --- Subject picker: Android action-sheet polish --- */
+::ng-deep .subject-sheet-android .action-sheet-group {
+  border-radius: 18px 18px 0 0;
+  padding-top: 6px;
+}
+
+::ng-deep .subject-sheet-android .action-sheet-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+}
+
+::ng-deep .subject-sheet-android .action-sheet-button {
+  font-size: 15.5px;
+  color: var(--ion-color-dark);
+}
+
+::ng-deep .subject-sheet-android .action-sheet-selected {
+  color: var(--ion-color-secondary);
+  font-weight: 600;
+}
+
+::ng-deep .subject-sheet-android .action-sheet-cancel {
+  font-weight: 600;
+}

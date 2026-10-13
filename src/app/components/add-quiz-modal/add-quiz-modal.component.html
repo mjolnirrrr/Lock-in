@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Add Quiz / Activity</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item class="form-field" lines="none">
+    <ion-input label="Title" labelPlacement="stacked" placeholder="Enter title" [(ngModel)]="title"></ion-input>
+  </ion-item>
+
+  <ion-item class="form-field" lines="none">
+    <ion-select
+      label="Subject"
+      labelPlacement="stacked"
+      placeholder="Select subject"
+      [interface]="subjectInterface"
+      [interfaceOptions]="subjectInterfaceOptions"
+      [(ngModel)]="subjectId"
+    >
+      @for (s of subjects(); track s.id) {
+        <ion-select-option [value]="s.id">{{ s.name }}</ion-select-option>
+      }
+    </ion-select>
+  </ion-item>
+
+  <p class="field-label">Type</p>
+  <ion-segment [(ngModel)]="type" class="type-segment">
+    <ion-segment-button value="quiz">
+      <ion-label>Quiz</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="activity">
+      <ion-label>Activity</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="row-2">
+    <ion-item class="form-field" lines="none">
+      <ion-input label="Date" labelPlacement="stacked" type="date" [(ngModel)]="date"></ion-input>
+    </ion-item>
+    <ion-item class="form-field" lines="none">
+      <ion-input label="Time" labelPlacement="stacked" type="time" [(ngModel)]="time"></ion-input>
+    </ion-item>
+  </div>
+
+  <ion-item class="form-field" lines="none">
+    <ion-textarea
+      label="Description (optional)"
+      labelPlacement="stacked"
+      placeholder="Add a description..."
+      [(ngModel)]="description"
+      [autoGrow]="true"
+    ></ion-textarea>
+  </ion-item>
+
+  <p class="field-label">Materials</p>
+  <div class="upload-box">
+    <ion-icon name="cloud-upload-outline"></ion-icon>
+    <p>Add files or images</p>
+    <span>Supports PDF, DOC, PPT, Images (JPG, PNG)</span>
+  </div>
+
+  <ion-button
+    expand="block"
+    color="dark"
+    class="full-width-btn create-btn"
+    (click)="create()"
+    [disabled]="!title || !subjectId"
+  >
+    Create
+  </ion-button>
+</ion-content>

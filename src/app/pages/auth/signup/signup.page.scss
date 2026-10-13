@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+.auth-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ion-toolbar {
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 4px 0 2px;
+}
+
+.subtitle {
+  color: var(--ion-color-medium);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.error {
+  font-size: 13px;
+  margin: -6px 0 10px;
+}
+
+.terms-item {
+  --background: transparent;
+  --padding-start: 0;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.terms-text {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  margin-left: 8px;
+  line-height: 1.4;
+}
+
+.footer-link {
+  text-align: center;
+  margin-top: 26px;
+  font-size: 13px;
+  color: var(--ion-color-medium);
+
+  a {
+    color: var(--ion-color-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+}

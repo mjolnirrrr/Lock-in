@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/study" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Materials</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddMaterial()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="filter-row">
+    <ion-chip
+      [outline]="activeFilter() !== ''"
+      [color]="activeFilter() === '' ? 'dark' : 'medium'"
+      (click)="setFilter('')"
+    >
+      <ion-label>All</ion-label>
+    </ion-chip>
+    @for (s of data.subjects(); track s.id) {
+      <ion-chip
+        [outline]="activeFilter() !== s.id"
+        [color]="activeFilter() === s.id ? 'dark' : 'medium'"
+        (click)="setFilter(s.id)"
+      >
+        <ion-label>{{ s.name }}</ion-label>
+      </ion-chip>
+    }
+  </div>
+
+  <div class="soft-card materials-card">
+    @for (m of filtered(); track m.id) {
+      <div class="material-row">
+        <ion-icon
+          [name]="m.kind === 'image' ? 'image-outline' : 'document-text-outline'"
+          [style.color]="m.kind === 'image' ? '#6C63FF' : '#EB5757'"
+        ></ion-icon>
+        <div class="material-text">
+          <p>{{ m.name }}</p>
+          <span>{{ subjectName(m.subjectId) }} &middot; {{ m.size }}</span>
+        </div>
+        <ion-icon name="trash-outline" class="delete-icon" (click)="remove(m.id)"></ion-icon>
+      </div>
+    } @empty {
+      <div class="empty-state"><p>No materials in this subject yet.</p></div>
+    }
+  </div>
+</ion-content>

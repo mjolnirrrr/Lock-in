@@ -1,11 +1,21 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, signal } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 import { Material, StudyTask, Subject, UserProfile } from '../models/models';
+
+const KEYS = {
+  subjects: 'lockin.subjects',
+  tasks: 'lockin.tasks',
+  materials: 'lockin.materials',
+  profile: 'lockin.profile'
+} as const;
 
 /**
  * Single source of truth for the whole app.
- * Everything lives in memory (Angular signals) — nothing touches a network.
- * Swap this service's internals for real HTTP calls later without touching
- * any component, since components only ever read the exposed signals/methods.
+ * Data lives in Angular signals and is saved to the device with
+ * Capacitor Preferences (localStorage in the browser, native storage on
+ * Android/iOS). On first run the starter data below is used; after that,
+ * whatever was saved is loaded instead.
+ * Components only read the exposed signals/methods, so they don't change.
  */
 @Injectable({ providedIn: 'root' })
 export class MockDataService {
@@ -43,6 +53,10 @@ export class MockDataService {
     averageScore: 86
   });
 
+  // Becomes true once saved data has been read from storage.
+  // Saving is paused until then so the starter data can't overwrite it.
+  private readonly loaded = signal(false);
+
   // Public read-only signals
   readonly subjects = this._subjects.asReadonly();
   readonly tasks = this._tasks.asReadonly();
@@ -50,7 +64,9 @@ export class MockDataService {
   readonly profile = this._profile.asReadonly();
 
   readonly todaysTasks = computed(() =>
-    this._tasks().filter((t) => t.date === this.today()).sort((a, b) => a.startTime.localeCompare(b.startTime))
+    this._tasks()
+      .filter((t) => t.date === this.today())
+      .sort((a, b) => this.toMinutes(a.startTime) - this.toMinutes(b.startTime))
   );
 
   readonly completionRate = computed(() => {
@@ -58,6 +74,67 @@ export class MockDataService {
     if (!tasks.length) return 0;
     return Math.round((tasks.filter((t) => t.done).length / tasks.length) * 100);
   });
+
+  constructor() {
+    this.load();
+
+    // Save automatically whenever any of the data changes.
+    effect(() => {
+      const snapshot = {
+        subjects: this._subjects(),
+        tasks: this._tasks(),
+        materials: this._materials(),
+        profile: this._profile()
+      };
+      if (!this.loaded()) return;
+      this.save(snapshot);
+    });
+  }
+
+  // ---- storage ----
+  private async read<T>(key: string): Promise<T | null> {
+    try {
+      const { value } = await Preferences.get({ key });
+      return value ? (JSON.parse(value) as T) : null;
+    } catch (err) {
+      console.error(`Could not read "${key}" from storage`, err);
+      return null;
+    }
+  }
+
+  private async load(): Promise<void> {
+    const [subjects, tasks, materials, profile] = await Promise.all([
+      this.read<Subject[]>(KEYS.subjects),
+      this.read<StudyTask[]>(KEYS.tasks),
+      this.read<Material[]>(KEYS.materials),
+      this.read<UserProfile>(KEYS.profile)
+    ]);
+
+    if (subjects) this._subjects.set(subjects);
+    if (tasks) this._tasks.set(tasks);
+    if (materials) this._materials.set(materials);
+    if (profile) this._profile.set(profile);
+
+    this.loaded.set(true);
+  }
+
+  private async save(data: {
+    subjects: Subject[];
+    tasks: StudyTask[];
+    materials: Material[];
+    profile: UserProfile;
+  }): Promise<void> {
+    try {
+      await Promise.all([
+        Preferences.set({ key: KEYS.subjects, value: JSON.stringify(data.subjects) }),
+        Preferences.set({ key: KEYS.tasks, value: JSON.stringify(data.tasks) }),
+        Preferences.set({ key: KEYS.materials, value: JSON.stringify(data.materials) }),
+        Preferences.set({ key: KEYS.profile, value: JSON.stringify(data.profile) })
+      ]);
+    } catch (err) {
+      console.error('Could not save data', err);
+    }
+  }
 
   // ---- helpers ----
   today(): string {
@@ -70,6 +147,15 @@ export class MockDataService {
     return d.toISOString().split('T')[0];
   }
 
+  // Converts '9:00 AM' / '2:30 PM' to minutes since midnight so times sort correctly
+  private toMinutes(time: string): number {
+    const m = time.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (!m) return 0;
+    let h = parseInt(m[1], 10) % 12;
+    if (m[3].toUpperCase() === 'PM') h += 12;
+    return h * 60 + parseInt(m[2], 10);
+  }
+
   subjectById(id: string): Subject | undefined {
     return this._subjects().find((s) => s.id === id);
   }
@@ -77,7 +163,7 @@ export class MockDataService {
   tasksForDate(date: string): StudyTask[] {
     return this._tasks()
       .filter((t) => t.date === date)
-      .sort((a, b) => a.startTime.localeCompare(b.startTime));
+      .sort((a, b) => this.toMinutes(a.startTime) - this.toMinutes(b.startTime));
   }
 
   // ---- mutations ----
